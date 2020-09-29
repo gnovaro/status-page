@@ -1,16 +1,26 @@
-<?php declare(strict_types=1);
+<?php 
+/**
+ * Service status page
+ * 
+ * @author  Gustavo Novaro <gnovaro@github.com>
+ * @license https://mit-license.org/ MIT
+ * @link    https://github.com/gnovaro/status-page status-page
+ */
+declare(strict_types=1);
 
 $services = [
     ['name' => 'MariaDB', 'process' => 'mysql'],
     ['name' => 'Redis', 'process' => 'redis-server'],
-    ['name' => 'Postfix', 'process' => 'postfix'],    
+    ['name' => 'Postfix', 'process' => 'master'],    
 ];
 
 /**
- * @param string 
+ * Check process status by name
+ * 
+ * @param string $name example: mysql
  * @return bool
  */
-function check_proccess_run(string $name) : bool 
+function check_proccess_run(string $name = '') : bool 
 {
     exec("pgrep $name", $output, $return);
     return ($return == 0) ? true : false;
@@ -27,7 +37,7 @@ function check_proccess_run(string $name) : bool
 </head>
 <body>
 <?php
-if(!empty($services)):
+if(!empty($services)) :
     foreach($services as $service):
 ?>
     <div>
